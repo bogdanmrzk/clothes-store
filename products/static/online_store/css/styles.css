@@ -1,0 +1,187 @@
+@font-face {
+        font-family: 'Underground';
+        src: url('/static/online_store/fonts/UndertownPersonalUseRegular-YzBmo.ttf');
+}
+
+html{
+    background-color: rgb(255, 255, 255);
+    cursor: crosshair;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.head-wrap{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 25px 50px;
+}
+
+.cart-icon{
+    cursor: pointer;
+}
+
+.shop_title, .shop_title > a{
+    padding: 55px 0;
+    color: #000000;
+    text-align: center;
+    font-family: 'Underground', sans-serif;
+    font-size: 6vw;
+    margin: 0;
+    text-decoration: none;
+}
+
+.card{
+    border-radius: 0px;
+    margin: 25px;
+    padding: 30px 20px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 645px;
+}
+
+.card > p{
+    text-align: center;
+}
+
+.pname{
+    font-weight: 300;
+    font-size: 3vmin;
+    margin-top: 35px;
+}
+
+.card_img{
+    max-width: 100%;
+    height: 100%;
+    max-inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.img-container{
+    padding: 20px;
+}
+
+.desc{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.desc > a > button{
+    border-radius: 10px;
+    font-size: 2.2vmin;
+    color: #ffffff;
+    border: 2px solid rgb(46, 46, 46);
+    transition: background-color 1s;
+    background-color: #414141;
+    height: 50px;
+    min-width: 150px;
+}
+
+.desc > a > button:hover{
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
+    color: black;
+    background-color: #ffffff;
+}
+
+.dropbtn {
+    font-weight: 500;
+    background-color: #dedede;
+    color: #000000;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    transition-duration: 1s;
+    position: relative;
+    display: inline-block;
+
+}
+
+.dropdown-content {
+    display: none;
+    font-weight: 300;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    font-weight: 500;
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    transition-duration: 1s;
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    transition-duration: 0.2s;
+    background-color: #777777;
+}
+
+
+@media (max-width: 768px) {
+    .head-wrap{
+        flex-direction: column-reverse;
+    }
+
+    .shop_title{
+        order: 1;
+        font-size: 6vw;
+    }
+
+    .dropdown{
+        margin-top: 50px;
+    }
+
+}
+
+
+.empty-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-container > a{
+    color: black;
+    background-color: #ffffff;
+    margin-top: 50px;
+    padding: 15px 45px;
+    border: 1px solid black;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.empty-container > p{
+    margin-top: 50px;
+    font-size: 25px;
+}

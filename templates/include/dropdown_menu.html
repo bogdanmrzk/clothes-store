@@ -1,0 +1,11 @@
+{% load static %}
+
+<div class="dropdown">
+    <button class="dropbtn">SORT BY</button>
+    <div class="dropdown-content">
+    <a href="{% url 'clothes_view' %}">All items</a>
+        {% for type in types %}
+            <a href="{% url 'clothes_type_url' type %}">{{ type | title }}</a>
+        {% endfor %}
+    </div>
+</div>
