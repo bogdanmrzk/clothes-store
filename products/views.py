@@ -5,6 +5,7 @@ from .models import *
 
 class AllProductsView(ListView):
     template_name = 'products/index.html'
+    print('1')
 
 
 def product_view(request):
