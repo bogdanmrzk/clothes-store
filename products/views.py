@@ -4,8 +4,7 @@ from .models import *
 
 
 class AllProductsView(ListView):
-    template_name = 'products/index.html'
-    print('1')
+    pass
 
 
 def product_view(request):
