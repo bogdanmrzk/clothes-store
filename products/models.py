@@ -2,11 +2,12 @@ from django.db import models
 from django.urls import reverse
 
 
-# Create your models here.
-
-
 class ProductType(models.Model):
     product_type = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = 'Product Types'
+        verbose_name = 'Product Type'
 
     def __str__(self):
         return self.product_type
@@ -26,6 +27,10 @@ class Products(models.Model):
     description = models.TextField()
     price = models.IntegerField()
     product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False)
+
+    class Meta:
+        verbose_name_plural = 'Products'
+        ordering = ('name',)
 
     def get_absolute_url(self):
         return reverse('clothes_type_url', kwargs={'c_type': self.product_type})

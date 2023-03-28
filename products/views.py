@@ -4,32 +4,28 @@ from .models import *
 
 
 class AllProductsView(ListView):
+    model = Products
     template_name = 'products/index.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = {
+            'items': Products.objects.all().order_by('-price'),
+            'types': ProductType.objects.all(),
+        }
+        return queryset
 
 
-def product_view(request):
-    all_products = Products.objects.all().order_by('-price')
-    all_types = ProductType.objects.all()
-    context = {
-        'products': all_products,
-        'types': all_types,
-    }
-    return render(request, template_name='products/index.html', context=context)
+class AllProductsFilterView(ListView):
+    model = Products
+    template_name = 'products/filtered_products.html'
+    context_object_name = 'products'
 
+    def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        queryset = {
+            'filtered_items': qs.filter(product_type__product_type=self.kwargs['c_type']).order_by('-price'),
+            'types': ProductType.objects.all(),
+        }
+        return queryset
 
-def filter_product_view(request, c_type):
-    filtered_products = Products.objects.filter(product_type__product_type=c_type).order_by('-price')
-    all_types = ProductType.objects.all()
-    context = {
-        'filtered_products': filtered_products,
-        'types': all_types,
-    }
-    return render(request, template_name='products/filtered_products.html', context=context)
-
-
-def type_view(request):
-    all_types = ProductType.objects.all()
-    context = {
-        'types': all_types,
-    }
-    return render(request, template_name='include/dropdown_menu.html', context=context)
