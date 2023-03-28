@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="container">
-        {% for product in products %}
+        {% for product in products.items %}
         <div class="card">
             <div class="imgcontainer">
                 <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">
