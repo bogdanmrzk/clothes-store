@@ -2,6 +2,18 @@ from django.db import models
 from django.urls import reverse
 
 
+class ProductSize(models.Model):
+    name = models.ForeignKey('Products', on_delete=models.PROTECT, blank=False, default='product')
+
+    class Size(models.TextChoices):
+        S = 'Small'
+        M = 'Medium'
+        L = 'Large'
+
+    quantity = models.IntegerField(default=0)
+    size = models.CharField(max_length=25, choices=Size.choices, default=Size.S)
+
+
 class ProductType(models.Model):
     product_type = models.CharField(max_length=50)
 
@@ -14,16 +26,9 @@ class ProductType(models.Model):
 
 
 class Products(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=255)
     item_slug = models.SlugField(max_length=255, db_index=True, unique=True)
-
-    class Size(models.TextChoices):
-        S = 'Small'
-        M = 'Medium'
-        L = 'Large'
-
     image = models.ImageField(upload_to='photos')
-    size = models.CharField(max_length=25, choices=Size.choices, default=Size.S)
     description = models.TextField()
     price = models.IntegerField()
     product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False, related_name="product_types")
