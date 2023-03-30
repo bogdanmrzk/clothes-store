@@ -14,11 +14,22 @@
 
 <header>
     <div class="head-wrap">
-        {% include 'include/dropdown_menu.html' %}
+
+        <div class="dropdown">
+            <button class="dropbtn">Sort by</button>
+            <div class="dropdown-content">
+                <a href="{% url 'clothes_view' %}">All items ({{ items.count }})</a>
+                    {% for type in types %}
+                    <a href="{% url 'clothes_type_url' type %}">{{ type | title }} ({{ type.product_types.count }})</a>
+                {% endfor %}
+            </div>
+        </div>
+
+
         <p class="shop_title">
             <a href="{% url 'clothes_view' %}">{% block header %}{% endblock header %}</a>
         </p>
-        <img src="https://img.icons8.com/external-phatplus-lineal-phatplus/64/null/external-shopping-bag-essential-phatplus-lineal-phatplus.png" class="cart-icon">
+        <img src="https://img.icons8.com/material-outlined/96/null/shopping-cart--v1.png" class="cart-icon">
     </div>
 </header>
 

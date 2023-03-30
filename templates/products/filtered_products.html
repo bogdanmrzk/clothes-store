@@ -10,22 +10,20 @@
 
     <div class="container">
         {% for product in products.filtered_items %}
-        <div class="card">
-            <div class="imgcontainer">
-                <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">
+             <a href="{% url 'detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
+            <div class="card">
+                <div class="imgcontainer">
+                    <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">
+                </div>
+                <div class="desc">
+                    <p class="pname">{{ product.name }}</p>
+                    <p>{{ product.price }} <b>USD</b></p>
+                </div>
             </div>
-            <div class="desc">
-                <p class="pname">{{ product.name }}</p>
-                <p>{{ product.price }} <b>USD</b></p>
-                <a><button>BUY</button></a>
-            </div>
-        </div>
         {% empty %}
-            <div class="empty-container">
-                <p>Nothing here.</p>
-                <a href="{% url 'clothes_view' %}">BACK</a>
-            </div>
+            <p>Nothing here yet.</p>
         {% endfor %}
+            </a>
     </div>
 
 {% endblock content %}

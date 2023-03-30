@@ -1,0 +1,33 @@
+{% extends 'products/base.html' %}
+{% load static %}
+
+{% block title %} BMRZK {% endblock title %}
+
+{% block header %} BMRZK {% endblock header %}
+
+{% block content %}
+    <div class="detail-container">
+        <div class="img-detail-wrap">
+            <img src="{{ BASE_DIR }}/media/photos/{{ products.image }}" alt="{{ product.name }}" class="card_img" width="500px">
+            <div class="detail-info">
+                <p class="category">{{ products.product_type }}</p>
+                <h2>{{ products.name }}</h2>
+                <b class="detail-price">{{ products.price }}$</b>
+                <div class="detail-description">
+                    <p>
+                        {{ products.description }}
+                    </p>
+                </div>
+                <div class="buy-buttons">
+                    <button class="to-cart">
+                        Add to cart
+                    </button>
+                    <button class="one-click">
+                        Buy in one click
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

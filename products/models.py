@@ -26,14 +26,14 @@ class Products(models.Model):
     size = models.CharField(max_length=25, choices=Size.choices, default=Size.S)
     description = models.TextField()
     price = models.IntegerField()
-    product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False)
+    product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False, related_name="product_types")
 
     class Meta:
         verbose_name_plural = 'Products'
         ordering = ('name',)
 
     def get_absolute_url(self):
-        return reverse('clothes_type_url', kwargs={'c_type': self.product_type})
+        return reverse("detail_clothes_view", kwargs={"slug": self.item_slug})
 
     def __str__(self):
         return self.name
