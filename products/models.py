@@ -3,15 +3,16 @@ from django.urls import reverse
 
 
 class ProductSize(models.Model):
-    name = models.ForeignKey('Products', on_delete=models.PROTECT, blank=False, default='product')
+    product = models.ForeignKey('Products', on_delete=models.CASCADE)
 
-    class Size(models.TextChoices):
-        S = 'Small'
-        M = 'Medium'
-        L = 'Large'
+    size_choice = [
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+    ]
 
     quantity = models.IntegerField(default=0)
-    size = models.CharField(max_length=25, choices=Size.choices, default=Size.S)
+    size = models.CharField(max_length=25, choices=size_choice, default='Small')
 
 
 class ProductType(models.Model):
@@ -19,7 +20,7 @@ class ProductType(models.Model):
 
     class Meta:
         verbose_name_plural = 'Product Types'
-        verbose_name = 'Product Type'
+        verbose_name = 'Product type'
 
     def __str__(self):
         return self.product_type

@@ -17,7 +17,14 @@
                 <div class="desc">
                     <p class="pname">{{ product.name }}</p>
                     <p>{{ product.price }} <b>USD</b></p>
-                    <b>S M L</b>
+                    <hr>
+                    <div class="sizes">
+                        {% for product in sizes %}
+                            <b>{{ product.size }}</b>
+                        {% empty %}
+                            <b class="sold-out">Sold out!</b>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         {% empty %}

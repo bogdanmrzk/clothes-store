@@ -4,7 +4,7 @@ from .models import *
 
 @admin.register(ProductSize)
 class SizesAdmin(admin.ModelAdmin):
-    list_display = ('size', 'quantity',)
+    list_display = ('product', 'quantity', 'size')
 
 
 @admin.register(Products)

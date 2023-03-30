@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import *
+from .forms import SelectSize
 
 
 class AllProductsView(ListView):
@@ -19,6 +20,7 @@ class AllProductsView(ListView):
         context = super(AllProductsView, self).get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
+        context['sizes'] = ProductSize.objects.all()
         return context
 
 
@@ -54,4 +56,6 @@ class ProductDetailView(DetailView):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
+        context['sizes'] = ProductSize.objects.filter(product_id=1).order_by('product')
+        context['form'] = SelectSize()
         return context
