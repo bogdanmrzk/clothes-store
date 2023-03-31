@@ -18,6 +18,11 @@
                 <div class="desc">
                     <p class="pname">{{ product.name }}</p>
                     <p>{{ product.price }} <b>USD</b></p>
+                    <div class="sizes">
+                        {% for size in product.productsize_set.all %}
+                            <p>{{ size.size }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         {% empty %}

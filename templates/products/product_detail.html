@@ -13,23 +13,17 @@
                 <p class="category">{{ products.product_type }}</p>
                 <h2>{{ products.name }}</h2>
                 <b class="detail-price">{{ products.price }}$</b>
-
-                <div class="detail-description">
-                    <p>
-                        {{ products.description }}
-                    </p>
-                </div>
+                <div class="detail-description">{{ products.description }}</div>
+                {% for product in products.items %}
+                        {% for size in products.productsize_set.all %}
+                            <p>{{ size.size }}</p>
+                        {% endfor %}
+                {% endfor %}
 
                 <div class="sizes-detail">
-                    <form method="post" action="index.html">
-                        {{ form }}
-                    </form>
-
-{#                    {% for product in sizes %}#}
-{#                        <b>{{ product.size }}</b>#}
-{#                    {% empty %}#}
-{#                        <b class="sold-out">Sold out!</b>#}
-{#                    {% endfor %}#}
+                    {% for size in products.productsize_set.all %}
+                        <p>{{ size.size }}</p>
+                    {% endfor %}
                 </div>
 
                 <div class="buy-buttons">

@@ -14,6 +14,9 @@ class ProductSize(models.Model):
     quantity = models.IntegerField(default=0)
     size = models.CharField(max_length=25, choices=size_choice, default='Small')
 
+    def __str__(self):
+        return self.size
+
 
 class ProductType(models.Model):
     product_type = models.CharField(max_length=50)
@@ -37,6 +40,9 @@ class Products(models.Model):
     class Meta:
         verbose_name_plural = 'Products'
         ordering = ('name',)
+
+    def get_sizes(self):
+        return ProductSize.objects.filter(product=self)
 
     def get_absolute_url(self):
         return reverse("detail_clothes_view", kwargs={"slug": self.item_slug})
