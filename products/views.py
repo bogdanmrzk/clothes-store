@@ -56,5 +56,4 @@ class ProductDetailView(DetailView):
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
         context['sizes'] = ProductSize.objects.filter().order_by('product')
-        context['form'] = SelectSize()
         return context

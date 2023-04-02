@@ -19,7 +19,7 @@
         <div class="dropdown">
             <button class="dropbtn">Sort by</button>
             <div class="dropdown-content">
-                <a href="{% url 'clothes_view' %}">All items ({{ products.items.count }})</a>
+                <a href="{% url 'clothes_view' %}">All items ({{ items.count }})</a>
                     {% for type in types %}
                     <a href="{% url 'clothes_type_url' type %}">{{ type | title }} ({{ type.product_types.count }})</a>
                 {% endfor %}
