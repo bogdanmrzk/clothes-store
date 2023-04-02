@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="container">
-        {% for product in products.items %}
+        {% for product in items %}
             <a href="{% url 'detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
             <div class="card">
                 <div class="imgcontainer">
@@ -20,6 +20,8 @@
                     <div class="sizes">
                         {% for size in product.productsize_set.all %}
                             <p>{{ size.size }}</p>
+                        {% empty %}
+                            <b style="color: #ff4949">Sold out.</b>
                         {% endfor %}
                     </div>
                 </div>

@@ -14,11 +14,12 @@
                 <h2>{{ products.name }}</h2>
                 <b class="detail-price">{{ products.price }}$</b>
                 <div class="detail-description">{{ products.description }}</div>
-                {% for product in products.items %}
-                        {% for size in products.productsize_set.all %}
-                            <p>{{ size.size }}</p>
-                        {% endfor %}
-                {% endfor %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ size_choice_form.as_p }}
+                </form>
+
                 <div class="sizes-detail">
                     {% for size in products.productsize_set.all %}
                         <button class="size-button">{{ size.size }}</button>

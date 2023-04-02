@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
+from .forms import ProductSizeForm
 from .models import *
-from .forms import SelectSize
 
 
 class AllProductsView(ListView):
@@ -8,18 +8,10 @@ class AllProductsView(ListView):
     template_name = 'products/index.html'
     context_object_name = 'products'
 
-    def get_queryset(self):
-        queryset = {
-            'items': Products.objects.all().order_by('-price'),
-            'types': ProductType.objects.all(),
-        }
-        return queryset
-
     def get_context_data(self, **kwargs):
         context = super(AllProductsView, self).get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
-        context['sizes'] = ProductSize.objects.filter().values()
         return context
 
 
@@ -31,9 +23,7 @@ class AllProductsFilterView(ListView):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset()
         queryset = {
-            'items': Products.objects.all().order_by('-price'),
             'filtered_items': qs.filter(product_type__product_type=self.kwargs['c_type']).order_by('-price'),
-            'types': ProductType.objects.all(),
         }
         return queryset
 
@@ -55,5 +45,5 @@ class ProductDetailView(DetailView):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
-        context['sizes'] = ProductSize.objects.filter().order_by('product')
+        context['size_choice_form'] = ProductSizeForm
         return context

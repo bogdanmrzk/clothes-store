@@ -1,12 +1,17 @@
 from django import forms
-from django.forms import ModelForm
-from .models import *
-
-# class SelectSize(forms.Form):
-#     size = forms.CharField(label='Select size', widget=forms.Select(choices=ProductSize.size_choice))
+from .models import ProductSize, Products
 
 
-class SelectSize(ModelForm):
+class ProductSizeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProductSizeForm, self).__init__(*args, **kwargs)
+        self.fields['size'].queryset = ProductSize.objects.filter(product_id=self.instance.product.pk)
+
+    size = forms.ModelChoiceField(
+        queryset=ProductSize.objects.filter(),
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = ProductSize
-        fields = ['size', ]
+        fields = ('size', )

@@ -6,14 +6,14 @@ from django.db.models import Case, When
 class ProductSize(models.Model):
     product = models.ForeignKey('Products', on_delete=models.CASCADE)
 
-    size_choice = [
+    SIZE_CHOICES_CLOTHES = [
         ('S', 'S'),
         ('M', 'M'),
         ('L', 'L'),
     ]
 
-    quantity = models.IntegerField(default=0)
-    size = models.CharField(max_length=25, choices=size_choice, default='S')
+    quantity = models.PositiveIntegerField(default=0)
+    size = models.CharField(max_length=25, choices=SIZE_CHOICES_CLOTHES, default='S')
 
     class Meta:
         ordering = [
@@ -61,3 +61,4 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
+
