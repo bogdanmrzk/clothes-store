@@ -8,7 +8,7 @@
 {% block content %}
     <div class="detail-container">
         <div class="img-detail-wrap">
-            <img src="{{ BASE_DIR }}/media/photos/{{ products.image }}" alt="{{ product.name }}" class="card_img" width="500px">
+            <img src="{{ BASE_DIR }}/media/photos/{{ products.image }}" alt="{{ product.name }}" class="card_img" width="500px" id="card-img-id">
             <div class="detail-info">
                 <p class="category">{{ products.product_type }}</p>
                 <h2>{{ products.name }}</h2>
@@ -19,10 +19,9 @@
                             <p>{{ size.size }}</p>
                         {% endfor %}
                 {% endfor %}
-
                 <div class="sizes-detail">
                     {% for size in products.productsize_set.all %}
-                        <p>{{ size.size }}</p>
+                        <button class="size-button">{{ size.size }}</button>
                     {% endfor %}
                 </div>
 

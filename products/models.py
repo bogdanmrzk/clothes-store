@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.db.models import Case, When
 
 
 class ProductSize(models.Model):
@@ -12,7 +13,18 @@ class ProductSize(models.Model):
     ]
 
     quantity = models.IntegerField(default=0)
-    size = models.CharField(max_length=25, choices=size_choice, default='Small')
+    size = models.CharField(max_length=25, choices=size_choice, default='S')
+
+    class Meta:
+        ordering = [
+            Case(
+                When(size='S', then=0),
+                When(size='M', then=1),
+                When(size='L', then=2),
+                default=5,
+                output_field=models.IntegerField(),
+                )
+        ]
 
     def __str__(self):
         return self.size
