@@ -21,7 +21,7 @@
                         {% for size in product.productsize_set.all %}
                             <p>{{ size.size }}</p>
                         {% empty %}
-                            <b style="color: #ff4949">Sold out.</b>
+                            <b style="color: #dc0000">Sold out.</b>
                         {% endfor %}
                     </div>
                 </div>

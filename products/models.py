@@ -43,7 +43,7 @@ class ProductType(models.Model):
 
 class Products(models.Model):
     name = models.CharField(max_length=255)
-    item_slug = models.SlugField(max_length=255, db_index=True, unique=True)
+    item_slug = models.SlugField(max_length=255)
     image = models.ImageField(upload_to='photos')
     description = models.TextField()
     price = models.IntegerField()

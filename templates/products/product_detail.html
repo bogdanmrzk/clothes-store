@@ -18,22 +18,8 @@
                 <form method="post">
                     {% csrf_token %}
                     {{ size_choice_form.as_p }}
+                    <button class="size-button" type="submit">Add to cart</button>
                 </form>
-
-                <div class="sizes-detail">
-                    {% for size in products.productsize_set.all %}
-                        <button class="size-button">{{ size.size }}</button>
-                    {% endfor %}
-                </div>
-
-                <div class="buy-buttons">
-                    <button class="to-cart">
-                        Add to cart
-                    </button>
-                    <button class="one-click">
-                        Buy in one click
-                    </button>
-                </div>
 
             </div>
         </div>

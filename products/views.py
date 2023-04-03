@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from .forms import ProductSizeForm
 from .models import *
@@ -45,5 +46,6 @@ class ProductDetailView(DetailView):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
-        context['size_choice_form'] = ProductSizeForm
+        product = get_object_or_404(Products, item_slug=self.kwargs['item_slug'])
+        context['size_choice_form'] = ProductSizeForm(product_id=product.id)
         return context
