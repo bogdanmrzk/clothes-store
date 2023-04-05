@@ -15,7 +15,7 @@
                 <b class="detail-price">{{ products.price }}$</b>
                 <div class="detail-description">{{ products.description }}</div>
 
-                <form method="post">
+                <form method="POST">
                     {% csrf_token %}
                     {{ size_choice_form.as_p }}
                     <button class="size-button" type="submit">Add to cart</button>

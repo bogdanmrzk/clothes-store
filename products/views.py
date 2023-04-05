@@ -1,25 +1,29 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from .forms import ProductSizeForm
 from .models import *
 
 
-class AllProductsView(ListView):
-    model = Products
-    template_name = 'products/index.html'
+class ProductsBaseView:
+    template_name = ''
     context_object_name = 'products'
 
     def get_context_data(self, **kwargs):
-        context = super(AllProductsView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
         return context
 
 
-class AllProductsFilterView(ListView):
+class AllProductsView(ProductsBaseView, ListView):
+    model = Products
+    template_name = 'products/index.html'
+
+
+class AllProductsFilterView(ProductsBaseView, ListView):
     model = Products
     template_name = 'products/filtered_products.html'
-    context_object_name = 'products'
 
     def get_queryset(self, **kwargs):
         qs = super().get_queryset()
@@ -28,24 +32,27 @@ class AllProductsFilterView(ListView):
         }
         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super(AllProductsFilterView, self).get_context_data(**kwargs)
-        context['types'] = ProductType.objects.all()
-        context['items'] = Products.objects.all()
-        return context
 
-
-class ProductDetailView(DetailView):
+class ProductDetailView(ProductsBaseView, DetailView):
     model = Products
     template_name = 'products/product_detail.html'
-    context_object_name = 'products'
     slug_url_kwarg = 'item_slug'
     slug_field = 'item_slug'
 
     def get_context_data(self, **kwargs):
-        context = super(ProductDetailView, self).get_context_data(**kwargs)
-        context['types'] = ProductType.objects.all()
-        context['items'] = Products.objects.all()
+        context = super().get_context_data(**kwargs)
         product = get_object_or_404(Products, item_slug=self.kwargs['item_slug'])
-        context['size_choice_form'] = ProductSizeForm(product_id=product.id)
+        choice_form = ProductSizeForm(product_id=product.id)
+        context['size_choice_form'] = choice_form
         return context
+
+    def post(self, request, *args, **kwargs):
+        product = get_object_or_404(Products, item_slug=self.kwargs['item_slug'])
+        choice_form = ProductSizeForm(request.POST, product_id=product.id)
+        if choice_form.is_valid():
+            return HttpResponseRedirect(reverse('clothes_view'))
+        else:
+            context = self.get_context_data(**kwargs)
+            context['size_choice_form'] = choice_form
+            return self.render_to_response(context)
+
