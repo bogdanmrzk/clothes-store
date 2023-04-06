@@ -9,7 +9,7 @@
 
     <div class="container">
         {% for product in items %}
-            <a href="{% url 'detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
+            <a href="{% url 'products:detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
             <div class="card">
                 <div class="imgcontainer">
                     <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">
@@ -19,7 +19,11 @@
                     <p>{{ product.price }} <b>USD</b></p>
                     <div class="sizes">
                         {% for size in product.productsize_set.all %}
-                            <p>{{ size.size }}</p>
+                            {% if size.quantity > 0 %}
+                                <p>{{ size.size }}</p>
+                            {% else %}
+                                <b style="color: #dc0000">Sold out.</b>
+                            {% endif %}
                         {% empty %}
                             <b style="color: #dc0000">Sold out.</b>
                         {% endfor %}

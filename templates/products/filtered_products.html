@@ -10,7 +10,7 @@
 
     <div class="container">
         {% for product in products.filtered_items %}
-             <a href="{% url 'detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
+             <a href="{% url 'products:detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
             <div class="card">
                 <div class="imgcontainer">
                     <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">

@@ -1,8 +1,8 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .forms import ProductSizeForm
 from .models import *
+from online_store import settings
 
 
 class ProductsBaseView:
@@ -13,6 +13,8 @@ class ProductsBaseView:
         context = super().get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
+        cart = self.request.session.get('cart', {})
+        context['item_amount'] = len(cart)
         return context
 
 
@@ -50,9 +52,19 @@ class ProductDetailView(ProductsBaseView, DetailView):
         product = get_object_or_404(Products, item_slug=self.kwargs['item_slug'])
         choice_form = ProductSizeForm(request.POST, product_id=product.id)
         if choice_form.is_valid():
-            return HttpResponseRedirect(reverse('clothes_view'))
+            request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+            size = choice_form.cleaned_data
+            cart = request.session.get('cart', {})
+            cart[str(product.id)] = {
+                'name': product.name,
+                'price': product.price,
+                'image': product.image.url,
+                'size': str(size),
+            }
+            request.session['cart'] = cart
+            request.session['items_amount'] = len(cart)
+            return redirect('products:cart:cart_view')
         else:
             context = self.get_context_data(**kwargs)
             context['size_choice_form'] = choice_form
             return self.render_to_response(context)
-

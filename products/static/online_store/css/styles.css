@@ -267,6 +267,33 @@ a:link{
     background: #6c6c6c;
 }
 
+.cart-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cart-wrap > h3{
+    display: flex;
+    justify-content: center;
+}
+
+.cart-detail-block{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-amount {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-amount-num{
+    position: relative;
+    left: 50px;
+}
+
 @media (max-width: 1100px) {
 
     .detail-info {

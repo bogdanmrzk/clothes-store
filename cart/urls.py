@@ -5,5 +5,5 @@ from cart.views import *
 app_name = 'cart'
 
 urlpatterns = [
-        path('', index, name='cart_view'),
+        path('', index_f, name='cart_view'),
 ]

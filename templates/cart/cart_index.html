@@ -1,3 +1,17 @@
+{% extends 'products/base.html' %}
 {% load static %}
 
-<h1>CART</h1>
+{% block header %}BMRZK{% endblock header %}
+{% block content %}
+    <div class="cart-wrap">
+    {% for item_id, item_data in cart.items %}
+            <div class="cart-detail-block">
+                <img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px">
+                <p>{{ item_data.name }} {{ item_data.price }}$</p>
+                
+            </div>
+    {% empty %}
+        <h3>Your cart is empty.</h3>
+    {% endfor %}
+    </div>
+{% endblock content %}
