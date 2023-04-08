@@ -11,7 +11,7 @@ class ProductSizeForm(forms.ModelForm):
     size = forms.ModelChoiceField(
         queryset=ProductSize.objects.filter(),
         widget=forms.Select(attrs={'class': 'form-control'}),
-        empty_label='Select size'
+        empty_label='Choose an option'
     )
 
     class Meta:

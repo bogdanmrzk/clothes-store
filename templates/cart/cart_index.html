@@ -4,14 +4,76 @@
 {% block header %}BMRZK{% endblock header %}
 {% block content %}
     <div class="cart-wrap">
-    {% for item_id, item_data in cart.items %}
             <div class="cart-detail-block">
-                <img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px">
-                <p>{{ item_data.name }} {{ item_data.price }}$</p>
-                
+                {% if cart.items %}
+                    <table>
+                            <tr>
+                                <th></th>
+                                <th>NAME</th>
+                                <th>SIZE</th>
+                                <th>PRICE</th>
+                                <th></th>
+                            </tr>
+                            {% for item_id, item_data in cart.items %}
+                                <tr>
+                                    <td><img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px"></td>
+                                    <td>{{ item_data.name }}</td>
+                                    <td>{{ item_data.size }}</td>
+                                    <td>{{ item_data.price }}$</td>
+                                    <td>
+                                        <form method="POST" class="delete-item-form">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn-remove" onclick="return confirm('Are you sure you want to remove this item?')">&#10006;</button>
+                                            <input type="hidden" name="item_id" value="{{ item_id }}">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                    </table>
+
+                {% else %}
+                    <h3>Your cart is empty.</h3>
+                {% endif %}
             </div>
-    {% empty %}
-        <h3>Your cart is empty.</h3>
-    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ order_form.as_p }}
+        <button type="submit" class="btn btn-primary">Create order</button>
+    </form>
+
     </div>
 {% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.delete-item-form').submit(function(e) {
+            e.preventDefault();
+            let form = $(this);
+            let item_id = form.find('input[name=item_id]').val();
+            let csrf_token = form.find('input[name=csrfmiddlewaretoken]').val();
+            $.ajax({
+                url: '/cart/',
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf_token,
+                    'X-HTTP-Method-Override': 'DELETE'
+                },
+                data: {
+                    'item_id': item_id
+                },
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>

@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .forms import ProductSizeForm
@@ -46,6 +47,7 @@ class ProductDetailView(ProductsBaseView, DetailView):
         product = get_object_or_404(Products, item_slug=self.kwargs['item_slug'])
         choice_form = ProductSizeForm(product_id=product.id)
         context['size_choice_form'] = choice_form
+        context['product'] = product
         return context
 
     def post(self, request, *args, **kwargs):
@@ -53,7 +55,7 @@ class ProductDetailView(ProductsBaseView, DetailView):
         choice_form = ProductSizeForm(request.POST, product_id=product.id)
         if choice_form.is_valid():
             request.session.set_expiry(settings.SESSION_COOKIE_AGE)
-            size = choice_form.cleaned_data
+            size = choice_form.cleaned_data['size']
             cart = request.session.get('cart', {})
             cart[str(product.id)] = {
                 'name': product.name,
@@ -62,8 +64,8 @@ class ProductDetailView(ProductsBaseView, DetailView):
                 'size': str(size),
             }
             request.session['cart'] = cart
-            request.session['items_amount'] = len(cart)
-            return redirect('products:cart:cart_view')
+            request.session['item_amount'] = len(cart)
+            return redirect('products:clothes_view')
         else:
             context = self.get_context_data(**kwargs)
             context['size_choice_form'] = choice_form

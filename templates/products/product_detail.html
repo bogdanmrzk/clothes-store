@@ -14,13 +14,17 @@
                 <h2>{{ products.name }}</h2>
                 <b class="detail-price">{{ products.price }}$</b>
                 <div class="detail-description">{{ products.description }}</div>
-
-                <form method="POST">
+                {% if product.get_sizes.count > 0 %}
+                    <form method="POST">
                     {% csrf_token %}
-                    {{ size_choice_form.as_p }}
-                    <button class="size-button" type="submit">Add to cart</button>
-                </form>
-
+                    {% if product.get_sizes.count > 1 or product.get_sizes.quantity > 1%}
+                        {{ size_choice_form.as_p }}
+                        <button class="size-button" type="submit">Add to cart</button>
+                    {% else %}
+                        <b style="color: #dc0000">Sold out.</b>
+                    {% endif %}
+                    </form>
+                {% endif %}
             </div>
         </div>
 

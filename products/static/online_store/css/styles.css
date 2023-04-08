@@ -291,7 +291,45 @@ a:link{
 
 .cart-amount-num{
     position: relative;
-    left: 50px;
+    left: 40px;
+}
+
+.amount-circle-wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+table{
+    width: 1000px;
+}
+
+table, th, td {
+    text-align: center;
+    align-items: center;
+}
+
+th{
+    font-weight: 200;
+}
+
+.amount-circle > *{
+    margin: 0;
+}
+
+.btn-remove{
+    transition: 0.5s;
+    padding: 10px;
+    border: none;
+}
+
+.btn-remove:hover{
+    transition: 0.5s;
+    background-color: rgb(171, 171, 171);
 }
 
 @media (max-width: 1100px) {
