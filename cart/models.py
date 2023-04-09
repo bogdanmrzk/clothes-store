@@ -12,7 +12,7 @@ class OrderItems(models.Model):
 class Order(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=11)
+    phone_number = models.CharField(max_length=13)
     email = models.EmailField()
     city = models.CharField(max_length=255)
     new_post_number = models.CharField(max_length=255)
