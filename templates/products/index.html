@@ -19,7 +19,7 @@
                     <p>{{ product.price }} <b>USD</b></p>
                     <div class="sizes">
                         {% for size in product.productsize_set.all %}
-                            {% if size.quantity > 0 %}
+                            {% if size.quantity %}
                                 <p>{{ size.size }}</p>
                             {% else %}
                                 <b style="color: #dc0000">Sold out.</b>

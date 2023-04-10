@@ -36,12 +36,15 @@ class CartIndexView(View):
         elif 'db_form' in request.POST:
             form = OrderForm(request.POST)
             if form.is_valid():
-                form.save()
                 for item_id in request.session['cart']:
                     product = Products.objects.get(pk=item_id)
                     size = request.session['cart'][item_id]['size']
                     product_size = get_object_or_404(ProductSize, product=product, size=size)
-                    product_size.quantity -= 1
-                    product_size.save()
+                    if product_size.quantity < 2:
+                        product_size.delete()
+                    else:
+                        product_size.quantity -= 1
+                        product_size.save()
+
                 del request.session['cart']
                 return redirect('products:clothes_view')
