@@ -1,15 +1,7 @@
-window.document.getElementById("showButton").addEventListener("htmx:afterOnLoad", function() {
-	setTimeout(function(){
-		window.document.getElementById("modal").classList.add("uk-open")
-	}, 10)
-})
+let menuBtn = document.querySelector('.menu-btn');
+let menu = document.querySelector('.menu');
 
-
-// This triggers the fade-out animation when the modal is closed.
-window.document.getElementById("cancelButton").addEventListener("click", function() {
-	window.document.getElementById("modal").classList.remove("uk-open")
-	setTimeout(function(){
-		window.document.getElementById("modals-here").innerHTML = ""
-		,200
-	})
+menuBtn.addEventListener('click', function(){
+	menuBtn.classList.toggle('active');
+	menu.classList.toggle('active');
 })

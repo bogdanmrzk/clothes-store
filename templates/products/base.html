@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'online_store/css/styles.css' %}">
-    <script src="{% static 'online_store/js/scripts.js' %}"></script>
-    <script src="https://unpkg.com/htmx.org@1.8.6"></script>
     <link rel="shortcut icon" type="image/png" href="{% static 'online_store/images/iexplorer.jpeg' %}"/>
     <title>{% block title %}{% endblock title %}</title>
 </head>
@@ -17,7 +15,11 @@
 <header>
     <div class="head-wrap">
 
-        <div class="dropdown">
+        <p class="shop_title">
+            <a href="{% url 'products:clothes_view' %}">{% block header %}{% endblock header %}</a>
+        </p>
+
+        <div class="dropdown-in-menu">
             <button class="dropbtn">Category</button>
             <div class="dropdown-content">
                 <a href="{% url 'products:clothes_view' %}">All items ({{ items.count }})</a>
@@ -27,10 +29,6 @@
             </div>
         </div>
 
-
-        <p class="shop_title">
-            <a href="{% url 'products:clothes_view' %}">{% block header %}{% endblock header %}</a>
-        </p>
         <div class="cart-amount">
             <div class="cart-amount-num">
                 <div class="amount-circle-wrap">
@@ -45,9 +43,81 @@
             </div>
             <a href="{% url 'products:cart:cart_view' %}"><img src="https://img.icons8.com/material-outlined/96/null/shopping-cart--v1.png" class="cart-icon" alt="cart-icon"></a>
         </div>
+
+        <div class="menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="menu">
+            <div class="dropdown-sidebar-wrapper">
+                 <div class="dropdown">
+                    <button class="dropbtn" onclick="sidebarDropdown()">Category &#9660;
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                 </div>
+                 <div class="dropdown-content" id="myDropdown">
+                     <a href="{% url 'products:clothes_view' %}">All items ({{ items.count }})</a>
+                     {% for type in types %}
+                         <a href="{% url 'products:clothes_type_url' type %}">{{ type | title }} ({{ type.product_types.count }})</a>
+                     {% endfor %}
+                 </div>
+            <a href="{% url 'products:cart:cart_view' %}" class="cart-url">
+                Cart <b>({{ item_amount }})</b>
+            </a>
+            </div>
+        </div>
+
     </div>
+
 </header>
 
 {% block content %} {% endblock content%}
 
+    <footer id="myFooter">
+        <hr>
+        <p>
+            MADE BY BOHDANMR$K
+        </p>
+    </footer>
+
 </html>
+
+<script>
+    let menuBtn = document.querySelector('.menu-btn');
+    let menu = document.querySelector('.menu');
+    let body = document.querySelector('body')
+
+    menuBtn.addEventListener('click', function(){
+    	menuBtn.classList.toggle('active');
+    	menu.classList.toggle('active');
+        body.classList.toggle('lock');
+    })
+
+    function sidebarDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      let myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+
+    window.addEventListener("scroll", function() {
+        let footer = document.getElementById("myFooter");
+        let scrollPosition = window.innerHeight + window.scrollY;
+        if (scrollPosition >= document.body.offsetHeight) {
+          footer.style.display = "block";
+        } else {
+          footer.style.display = "none";
+        }
+    });
+
+
+</script>

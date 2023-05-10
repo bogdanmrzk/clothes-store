@@ -20,7 +20,13 @@
                     <p>{{ product.price }} <b>USD</b></p>
                     <div class="sizes">
                         {% for size in product.productsize_set.all %}
-                            <p>{{ size.size }}</p>
+                            {% if size.quantity %}
+                                <p>{{ size.size }}</p>
+                            {% else %}
+                                <b style="color: #dc0000">Sold out.</b>
+                            {% endif %}
+                        {% empty %}
+                            <b style="color: #dc0000">Sold out.</b>
                         {% endfor %}
                     </div>
                 </div>
@@ -31,5 +37,8 @@
             </a>
     </div>
 
-{% endblock content %}
+{#<footer>#}
+{#    <img src="{% static  'online_store/images/cd0c622e-0077-42ac-b8c7-f455033edf1d_5f115e08c4b31.jpg' %}" alt="butts" width="100%" height="200px">#}
+{#</footer>#}
 
+{% endblock content %}

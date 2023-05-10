@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.sessions.models import Session
 from .forms import OrderForm
 from products.models import ProductType, Products, ProductSize
+from .models import Order, OrderItems
 
 main_session = Session.objects.all()
 
@@ -36,6 +37,14 @@ class CartIndexView(View):
         elif 'db_form' in request.POST:
             form = OrderForm(request.POST)
             if form.is_valid():
+                order = Order.objects.create(
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    phone_number=form.cleaned_data['phone_number'],
+                    email=form.cleaned_data['email'],
+                    city=form.cleaned_data['city'],
+                    new_post_number=form.cleaned_data['new_post_number']
+                )
                 for item_id in request.session['cart']:
                     product = Products.objects.get(pk=item_id)
                     size = request.session['cart'][item_id]['size']
@@ -45,6 +54,15 @@ class CartIndexView(View):
                     else:
                         product_size.quantity -= 1
                         product_size.save()
-
-                del request.session['cart']
+                    OrderItems.objects.create(
+                        order=order,
+                        product=product,
+                        total_price=request.session['cart'][item_id]['price'],
+                        size=request.session['cart'][item_id]['size']
+                    )
+                else:
+                    del request.session['cart']
+                    del request.session['item_amount']
                 return redirect('products:clothes_view')
+            else:
+                return HttpResponse(status=400)

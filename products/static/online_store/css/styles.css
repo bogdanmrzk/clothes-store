@@ -1,6 +1,7 @@
 @font-face {
         font-family: 'Underground';
-        src: url('/static/online_store/fonts/UndertownPersonalUseRegular-YzBmo.ttf');
+        src: url('/static/online_store/fonts/digital-7 (mono).ttf');
+        /*src: url('/static/online_store/fonts/UndertownPersonalUseRegular-YzBmo.ttf');*/
 }
 
 input[type='text'], input[type='email']{
@@ -8,9 +9,19 @@ input[type='text'], input[type='email']{
     border: 1px solid rgba(0,0,0,0.67);
 }
 
+body{
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 55px;
+}
+
 html{
     background-color: rgb(255, 255, 255);
     cursor: crosshair;
+}
+
+.cart-url{
+    color: black;
 }
 
 a:link{
@@ -120,11 +131,13 @@ a:link{
 .dropbtn {
     padding: 16px;
     font-size: 16px;
-    border: 1px #ffffff solid;
+    background: #ffffff;
+    border: none;
     cursor: pointer;
 }
 
-.dropdown {
+.dropdown-in-menu {
+    margin-left: 250px;
     transition-duration: 1s;
     position: relative;
     display: inline-block;
@@ -142,6 +155,7 @@ a:link{
 }
 
 .dropdown-content a {
+    z-index: 3;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -153,12 +167,12 @@ a:link{
     background-color: #f1f1f1;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown-in-menu:hover .dropdown-content {
     transition-duration: 1s;
     display: block;
 }
 
-.dropdown:hover .dropbtn {
+.dropdown-in-menu:hover .dropbtn {
     transition-duration: 0.2s;
     background-color: #b7b7b7;
 }
@@ -384,6 +398,81 @@ th{
     float: right;
 }
 
+.container > span{
+    color: black;
+}
+
+.menu{
+    display: none;
+}
+
+.dropdown-sidebar-wrapper {
+    z-index: 4;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dropdown-sidebar-wrapper a {
+    float: left;
+    font-size: 16px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+    margin-top: 50px;
+}
+
+#myFooter {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    opacity: 60%;
+}
+
 @media (max-width: 1100px) {
     .detail-info {
         margin-right: 50px;
@@ -399,16 +488,30 @@ th{
         gap: 25px;
         margin: 0 25px;
     }
+
+    .detail-info {
+        margin-left: 50px;
+    }
 }
 
 @media (max-width: 768px) {
+    .cart, .cart-amount-num, .cart-icon{
+        display: none;
+    }
+
+    body.lock{
+        overflow: hidden;
+    }
+
     table{
         width: auto;
         margin: 50px 0;
     }
 
     .head-wrap{
-        flex-direction: column-reverse;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-around;
     }
 
     .shop_title{
@@ -416,8 +519,8 @@ th{
         font-size: 6vw;
     }
 
-    .dropdown{
-        margin-top: 50px;
+    .dropdown-in-menu{
+        display: none;
     }
 
     .card_img{
@@ -429,8 +532,7 @@ th{
     }
 
     .detail-info{
-        margin-left: 0;
-        margin-top: 50px;
+        margin: 50px 15px;
         max-width: 90%;
     }
 
@@ -446,11 +548,81 @@ th{
         margin-bottom: 25px;
     }
 
-}
-
-@media (max-width: 1100px) {
-
-    .detail-info {
-        margin-left: 50px;
+    .menu > a{
+	    text-decoration: none;
+	    color: #000000;
     }
+
+    /* Burger icon */
+    .menu-btn {
+        margin-left: 150px;
+    	cursor: pointer;
+    	width: 30px;
+    	height: 30px;
+    	position: relative;
+    	z-index:2;
+    	overflow: hidden;
+    }
+
+    .menu-btn span {
+    	width: 30px;
+    	height: 2px;
+    	position: absolute;
+    	top: 50%;
+    	left: 50%;
+    	transform: translate(-50%, -50%);
+    	background-color: #222222;
+    	transition: all 0.5s;
+    }
+
+    .menu-btn span:nth-of-type(2) {
+    	top: calc(50% - 5px);
+    }
+    .menu-btn span:nth-of-type(3) {
+    	top: calc(50% + 5px);
+    }
+
+    /* Changing the hamburger icon when the menu is open */
+    .menu-btn.active span:nth-of-type(1) {
+      display: none;
+    }
+    .menu-btn.active span:nth-of-type(2) {
+      top: 50%;
+      transform: translate(-50%, 0%) rotate(45deg);
+    }
+    .menu-btn.active span:nth-of-type(3) {
+      top: 50%;
+      transform: translate(-50%, 0%) rotate(-45deg);
+    }
+
+    /* Menu that will appear */
+    .menu {
+        display: flex;
+        flex-direction: column;
+    	position: fixed;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
+    	height: 100%;
+    	padding: 15px;
+      	background: rgb(215, 215, 215);
+    	transform: translateX(-100%);
+    	transition: transform 0.5s;
+    }
+
+    .menu.active {
+    	transform: translateX(0);
+        z-index: 1;
+    }
+
+    .menu li {
+    	list-style-type: none;
+    }
+
+    .dropdown-sidebar-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
 }
