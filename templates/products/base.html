@@ -19,6 +19,10 @@
             <a href="{% url 'products:clothes_view' %}">{% block header %}{% endblock header %}</a>
         </p>
 
+        <p class="contacts">
+            Contacts
+        </p>
+
         <div class="dropdown-in-menu">
             <button class="dropbtn">Category</button>
             <div class="dropdown-content">
@@ -53,7 +57,7 @@
         <div class="menu">
             <div class="dropdown-sidebar-wrapper">
                  <div class="dropdown">
-                    <button class="dropbtn" onclick="sidebarDropdown()">Category &#9660;
+                    <button class="dropbtn" onclick="sidebarDropdown()">Category
                         <i class="fa fa-caret-down"></i>
                     </button>
                  </div>
@@ -66,6 +70,10 @@
             <a href="{% url 'products:cart:cart_view' %}" class="cart-url">
                 Cart <b>({{ item_amount }})</b>
             </a>
+
+            <a>
+                Contacts
+            </a>
             </div>
         </div>
 
@@ -76,7 +84,6 @@
 {% block content %} {% endblock content%}
 
     <footer id="myFooter">
-        <hr>
         <p>
             MADE BY BOHDANMR$K
         </p>

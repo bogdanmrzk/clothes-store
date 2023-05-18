@@ -7,7 +7,6 @@ class OrderItemsInline(admin.TabularInline):
     extra = 0
 
 
-
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemsInline]

@@ -44,7 +44,7 @@ class ProductType(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=255)
     item_slug = models.SlugField(max_length=255)
-    image = models.ImageField(upload_to='photos')
+    photos = models.ManyToManyField('Photo', blank=True)
     description = models.TextField()
     price = models.IntegerField()
     product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False, related_name="product_types")
@@ -62,3 +62,9 @@ class Products(models.Model):
     def __str__(self):
         return self.name
 
+
+class Photo(models.Model):
+    image = models.ImageField(upload_to='photos')
+
+    def __str__(self):
+        return self.image.name
