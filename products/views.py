@@ -14,6 +14,7 @@ class ProductsBaseView:
         context = super().get_context_data(**kwargs)
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
+        context['photos'] = Photo.objects.all()
         cart = self.request.session.get('cart', {})
         context['item_amount'] = len(cart)
         return context
@@ -60,7 +61,7 @@ class ProductDetailView(ProductsBaseView, DetailView):
             cart[str(product.id)] = {
                 'name': product.name,
                 'price': product.price,
-                'image': product.image.url,
+                'image': product.photos.url,
                 'size': str(size),
             }
             request.session['cart'] = cart

@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.db.models import Case, When
 
@@ -23,7 +25,7 @@ class ProductSize(models.Model):
                 When(size='L', then=2),
                 default=5,
                 output_field=models.IntegerField(),
-                )
+            )
         ]
 
     def __str__(self):
@@ -68,3 +70,8 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.image.name
+
+
+@receiver(pre_delete, sender=Photo)
+def delete_related_photos(sender, instance, **kwargs):
+    instance.products_set.clear()

@@ -8,26 +8,31 @@
 {% block content %}
     <div class="detail-container">
         <div class="img-detail-wrap">
-            <img src="{{ BASE_DIR }}/media/photos/{{ products.image }}" alt="{{ product.name }}" class="card_img" width="500px" id="card-img-id">
+            <div class="slider" style="max-width: 342px">
+                {% for photo in product.photos.all %}
+                    <img src="{{ photo.image.url }}" alt="Photo" class="card_img" width="342px">
+                {% empty %}
+                    <p>No photos available.</p>
+                {% endfor %}
+            </div>
             <div class="detail-info">
-                <p class="category">{{ products.product_type }}</p>
-                <h2>{{ products.name }}</h2>
-                <b class="detail-price">{{ products.price }}$</b>
-                <div class="detail-description">{{ products.description }}</div>
+                <p class="category">{{ product.product_type }}</p>
+                <h2>{{ product.name }}</h2>
+                <b class="detail-price">{{ product.price }}$</b>
+                <div class="detail-description">{{ product.description }}</div>
                 {% if product.get_sizes.count > 0 %}
                     <form method="POST">
-                    {% csrf_token %}
-                    {% if product.get_sizes.count > 0 %}
-                        {{ size_choice_form.as_p }}
-                        <button class="size-button" type="submit">Add to cart</button>
-                    {% else %}
-                        <b style="color: #dc0000">Sold out.</b>
-                    {% endif %}
+                        {% csrf_token %}
+                        {% if product.get_sizes.count > 0 %}
+                            {{ size_choice_form.as_p }}
+                            <button class="size-button" type="submit">Add to cart</button>
+                        {% else %}
+                            <b style="color: #dc0000">Sold out.</b>
+                        {% endif %}
                     </form>
                 {% endif %}
             </div>
         </div>
     </div>
-
 
 {% endblock content %}
