@@ -13,7 +13,8 @@
                class="item-link">
             <div class="card">
                 <div class="imgcontainer">
-                    <img src="{{ product.photos.first.image.url }}" alt="{{ product.name }}" class="card_img" width="342px">
+                    <img src="{{ product.photos.first.image.url }}" alt="{{ product.name }}" class="card_img"
+                         width="342px">
                 </div>
                 <div class="desc">
                     <p class="pname">{{ product.name }}</p>
@@ -23,10 +24,10 @@
                             {% if size.quantity %}
                                 <p>{{ size.size }}</p>
                             {% else %}
-                                <b style="color: #dc0000">Sold out.</b>
+                                <b style="color: #dc0000">No sizes available.</b>
                             {% endif %}
                         {% empty %}
-                            <b style="color: #dc0000">Sold out.</b>
+                            <b style="color: #dc0000">No sizes available.</b>
                         {% endfor %}
                     </div>
                 </div>

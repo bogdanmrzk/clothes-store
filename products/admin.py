@@ -13,6 +13,7 @@ class SizesAdmin(admin.ModelAdmin):
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'price',)
+    list_display_links = ('id', 'name',)
     prepopulated_fields = {'item_slug': ('name',)}
 
 
@@ -24,4 +25,4 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('image', )
+    list_display = ('image', 'product')

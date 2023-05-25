@@ -1,7 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
-from django.urls import reverse
 from django.db.models import Case, When
 
 
@@ -46,7 +46,6 @@ class ProductType(models.Model):
 class Products(models.Model):
     name = models.CharField(max_length=255)
     item_slug = models.SlugField(max_length=255)
-    photos = models.ManyToManyField('Photo', blank=True)
     description = models.TextField()
     price = models.IntegerField()
     product_type = models.ForeignKey('ProductType', on_delete=models.PROTECT, blank=False, related_name="product_types")
@@ -66,12 +65,13 @@ class Products(models.Model):
 
 
 class Photo(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='photos')
     image = models.ImageField(upload_to='photos')
 
     def __str__(self):
         return self.image.name
 
 
-@receiver(pre_delete, sender=Photo)
+@receiver(pre_delete, sender=Products)
 def delete_related_photos(sender, instance, **kwargs):
-    instance.products_set.clear()
+    instance.photos.all().delete()

@@ -10,31 +10,32 @@
 
     <div class="container">
         {% for product in products.filtered_items %}
-             <a href="{% url 'products:detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}" class="item-link">
+            <a href="{% url 'products:detail_clothes_view' c_type=product.product_type item_slug=product.item_slug %}"
+               class="item-link">
+
             <div class="card">
                 <div class="imgcontainer">
-                    <img src="{{ BASE_DIR }}/media/photos/{{ product.image }}" alt="{{ product.name }}" class="card_img" width="342px">
+                    <img src="{{ product.photos.first.image.url }}" alt="{{ product.name }}" class="card_img" width="342px">
                 </div>
                 <div class="desc">
                     <p class="pname">{{ product.name }}</p>
                     <p>{{ product.price }} <b>USD</b></p>
                     <div class="sizes">
-                        {% for size in product.productsize_set.all %}
+                        {% for size in product.get_sizes %}
                             {% if size.quantity %}
                                 <p>{{ size.size }}</p>
                             {% else %}
-                                <b style="color: #dc0000">Sold out.</b>
+                                <b style="color: #dc0000">No sizes available.</b>
                             {% endif %}
                         {% empty %}
-                            <b style="color: #dc0000">Sold out.</b>
+                            <b style="color: #dc0000">No sizes available.</b>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         {% empty %}
-            <p>Nothing here yet.</p>
+            <p>No products available.</p>
         {% endfor %}
-            </a>
     </div>
 
 {% endblock content %}

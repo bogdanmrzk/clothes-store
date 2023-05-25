@@ -1,4 +1,3 @@
-import json
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from .forms import ProductSizeForm
@@ -61,7 +60,7 @@ class ProductDetailView(ProductsBaseView, DetailView):
             cart[str(product.id)] = {
                 'name': product.name,
                 'price': product.price,
-                'image': product.photos.url,
+                'image': product.photos.first().image.url if product.photos.exists() else '',
                 'size': str(size),
             }
             request.session['cart'] = cart
