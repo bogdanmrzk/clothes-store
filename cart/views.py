@@ -21,7 +21,7 @@ class CartIndexView(View):
         }
         for price in context['cart'].values():
             context['total'] += price['price']
-        return render(request, 'cart/cart_index.html', context)
+        return render(request, 'products/base.html', context)
 
     def post(self, request):
         if 'item_id' in request.POST:

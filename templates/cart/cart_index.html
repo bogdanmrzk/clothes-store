@@ -5,40 +5,46 @@
 {% block content %}
 
 <div class="cart-wrap">
-
+    <div class="menu">
+        <ul>
+          <li><a href="#">Пункт меню 1</a></li>
+          <li><a href="#">Пункт меню 2</a></li>
+          <li><a href="#">Пункт меню 3</a></li>
+        </ul>
+      </div>
 </div>
 
-{#    <div class="cart-detail-block">#}
-{#        {% if cart.items %}#}
-{#            <table>#}
-{#                <tr>#}
-{#                    <th></th>#}
-{#                    <th>NAME</th>#}
-{#                    <th>SIZE</th>#}
-{#                    <th>PRICE</th>#}
-{#                    <th></th>#}
-{#                </tr>#}
-{#                {% for item_id, item_data in cart.items %}#}
-{#                    <tr>#}
-{#                        <td><img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px"></td>#}
-{#                        <td>{{ item_data.name }}</td>#}
-{#                        <td>{{ item_data.size }}</td>#}
-{#                        <td>{{ item_data.price }}$</td>#}
-{#                        <td>#}
-{#                            <form method="POST" class="delete-item-form">#}
-{#                                {% csrf_token %}#}
-{#                                <button type="submit" class="remove-item-btn" onclick="return confirm('Are you sure you want to remove this item?')">&#10006;</button>#}
-{#                                <input type="hidden" name="item_id" value="{{ item_id }}">#}
-{#                            </form>#}
-{#                        </td>#}
-{#                    </tr>#}
-{#                {% endfor %}#}
-{#            </table>#}
-{#        {% else %}#}
-{#            <h3>Your cart is empty.</h3>#}
-{#        {% endif %}#}
-{#    </div>#}
-{##}
+    <div class="cart-detail-block">
+        {% if cart.items %}
+            <table>
+                <tr>
+                    <th></th>
+                    <th>NAME</th>
+                    <th>SIZE</th>
+                    <th>PRICE</th>
+                    <th></th>
+                </tr>
+                {% for item_id, item_data in cart.items %}
+                    <tr>
+                        <td><img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px"></td>
+                        <td>{{ item_data.name }}</td>
+                        <td>{{ item_data.size }}</td>
+                        <td>{{ item_data.price }}$</td>
+                        <td>
+                            <form method="POST" class="delete-item-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-item-btn" onclick="return confirm('Are you sure you want to remove this item?')">&#10006;</button>
+                                <input type="hidden" name="item_id" value="{{ item_id }}">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h3>Your cart is empty.</h3>
+        {% endif %}
+    </div>
+
 {#    <div class="form-group">#}
 {#        {% if cart.items %}#}
 {#            <form method="POST" class="order-form">#}
@@ -87,7 +93,7 @@
           'csrfmiddlewaretoken': '{{ csrf_token }}'
         },
         success: function(response) {
-          location.reload(); // перезагружаем страницу
+          location.reload(); // перезавантажуєм сторінку
         },
         error: function(xhr, status, error) {
           console.log(error);
@@ -95,6 +101,7 @@
       });
     });
   });
+
 </script>
 
 {% endblock content %}

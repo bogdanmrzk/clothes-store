@@ -14,6 +14,7 @@ class ProductsBaseView:
         context['types'] = ProductType.objects.all()
         context['items'] = Products.objects.all()
         context['photos'] = Photo.objects.all()
+        context['cart'] = self.request.session.get('cart', {})
         cart = self.request.session.get('cart', {})
         context['item_amount'] = len(cart)
         return context

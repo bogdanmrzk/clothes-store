@@ -7,11 +7,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" type="image/png" href="{% static 'online_store/images/iexplorer.jpeg' %}"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <link rel="stylesheet" href="{% static 'online_store/css/styles.css' %}"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>{% block title %}{% endblock title %}</title>
 </head>
 
@@ -30,8 +33,9 @@
             <button class="dropbtn">Category</button>
             <div class="dropdown-content">
                 <a href="{% url 'products:clothes_view' %}">All items ({{ items.count }})</a>
-                    {% for type in types %}
-                    <a href="{% url 'products:clothes_type_url' type %}">{{ type | title }} ({{ type.product_types.count }})</a>
+                {% for type in types %}
+                    <a href="{% url 'products:clothes_type_url' type %}">{{ type | title }}
+                        ({{ type.product_types.count }})</a>
                 {% endfor %}
             </div>
         </div>
@@ -48,7 +52,8 @@
                     </div>
                 </div>
             </div>
-            <a href="{% url 'products:cart:cart_view' %}"><img src="https://img.icons8.com/material-outlined/96/null/shopping-cart--v1.png" class="cart-icon" alt="cart-icon"></a>
+            <a><img src="https://img.icons8.com/material-outlined/96/null/shopping-cart--v1.png"
+                    class="cart-icon menu-toggle" alt="cart-icon"></a>
         </div>
 
         <div class="menu-btn">
@@ -59,53 +64,102 @@
 
         <div class="menu">
             <div class="dropdown-sidebar-wrapper">
-                 <div class="dropdown">
+                <div class="dropdown">
                     <button class="dropbtn" onclick="sidebarDropdown()">Category
                         <i class="fa fa-caret-down"></i>
                     </button>
-                 </div>
-                 <div class="dropdown-content" id="myDropdown">
-                     <a href="{% url 'products:clothes_view' %}">All items ({{ items.count }})</a>
-                     {% for type in types %}
-                         <a href="{% url 'products:clothes_type_url' type %}">{{ type | title }} ({{ type.product_types.count }})</a>
-                     {% endfor %}
-                 </div>
-            <a href="{% url 'products:cart:cart_view' %}" class="cart-url">
-                Cart <b>({{ item_amount }})</b>
-            </a>
+                </div>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="{% url 'products:clothes_view' %}">All items ({{ items.count }})</a>
+                    {% for type in types %}
+                        <a href="{% url 'products:clothes_type_url' type %}">{{ type | title }}
+                            ({{ type.product_types.count }})</a>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'products:cart:cart_view' %}" class="cart-url">
+                    Cart <b>({{ item_amount }})</b>
+                </a>
 
-            <a>
-                Contacts
-            </a>
+                <a>
+                    Contacts
+                </a>
+
             </div>
         </div>
 
     </div>
 
+    <div class="cart-wrapper">
+        <div class="cart-menu">
+            <img src="{% static 'online_store/images/close.png' %}" alt="Close" class="cart-close" width="25px">
+            <div class="cart-content">
+                {% if cart %}
+                    {% for item_id, item_data in cart.items %}
+                        <div class="cart-item-block">
+                            <img src="{{ item_data.image }}" alt="{{ item_data.name }}" width="100px">
+                            <div class="cart-item-desc">
+                                <h4 class="cart-item-name">{{ item_data.name }}</h4>
+                                <p class="cart-item-size">Size: {{ item_data.size }}</p>
+                            </div>
+                            <form method="POST" class="delete-item-form">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-item-btn"
+                                        onclick="return confirm('Are you sure you want to remove this item?')">&#x2715;
+                                </button>
+                                <input type="hidden" name="item_id" value="{{ item_id }}">
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Your cart is empty now.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
 </header>
 
-{% block content %} {% endblock content%}
+{% block content %} {% endblock content %}
 
-    <footer id="myFooter">
-        <p>
-            MADE BY BOHDANMR$K
-        </p>
-    </footer>
+<footer id="myFooter">
+    <p>
+        MADE BY BOHDANMR$K
+    </p>
+</footer>
 
 </html>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-{#<script src="{% static 'online_store/js/slick.min.js' %}"></script>#}
 <script>
+    $(document).ready(function () {
+        $('.remove-item-btn').click(function () {
+            let item_id = $(this).data('item-id');
+            $.ajax({
+                url: '/cart/remove-from-cart/',
+                method: 'POST',
+                data: {
+                    'item_id': item_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    location.reload(); // перезавантажуєм сторінку
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+
     let menuBtn = document.querySelector('.menu-btn');
     let menu = document.querySelector('.menu');
     let body = document.querySelector('body')
 
-    menuBtn.addEventListener('click', function(){
-    	menuBtn.classList.toggle('active');
-    	menu.classList.toggle('active');
+    menuBtn.addEventListener('click', function () {
+        menuBtn.classList.toggle('active');
+        menu.classList.toggle('active');
         body.classList.toggle('lock');
     })
 
@@ -114,22 +168,22 @@
     }
 
     // Close the dropdown if the user clicks outside of it
-    window.onclick = function(e) {
-      if (!e.target.matches('.dropbtn')) {
-      let myDropdown = document.getElementById("myDropdown");
-        if (myDropdown.classList.contains('show')) {
-          myDropdown.classList.remove('show');
+    window.onclick = function (e) {
+        if (!e.target.matches('.dropbtn')) {
+            let myDropdown = document.getElementById("myDropdown");
+            if (myDropdown.classList.contains('show')) {
+                myDropdown.classList.remove('show');
+            }
         }
-      }
     }
 
-    window.addEventListener("scroll", function() {
+    window.addEventListener("scroll", function () {
         let footer = document.getElementById("myFooter");
         let scrollPosition = window.innerHeight + window.scrollY;
         if (scrollPosition >= document.body.offsetHeight) {
-          footer.style.display = "block";
+            footer.style.display = "block";
         } else {
-          footer.style.display = "none";
+            footer.style.display = "none";
         }
     });
 
@@ -141,6 +195,15 @@
             slidesToShow: 1,
             slidesToScroll: 1
         });
+    });
+
+    $(document).ready(function () {
+        $('.menu-toggle').click(function () {
+            $('.cart-wrapper',).toggleClass('menu-open');
+        });
+        $('.cart-close').click(function () {
+            $('.cart-wrapper',).toggleClass('menu-open');
+        })
     });
 
 </script>
